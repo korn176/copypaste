@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Copy-Paste Detection</title>
+    <style>
+        #output {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Detect Copy-Paste or Typing</h1>
+    <textarea id="inputField" rows="10" cols="50" placeholder="Type or paste something here..."></textarea>
+    <div id="output"></div>
+
+    <script>
+        const inputField = document.getElementById('inputField');
+        const output = document.getElementById('output');
+
+        let lastKeyPressTime = 0;
+        const keyPressThreshold = 200; // milliseconds
+
+        inputField.addEventListener('input', (event) => {
+            const currentTime = new Date().getTime();
+            const timeDiff = currentTime - lastKeyPressTime;
+
+            if (timeDiff > keyPressThreshold) {
+                output.textContent = 'Content was pasted.';
+            } else {
+                output.textContent = 'Content was typed.';
+            }
+
+            lastKeyPressTime = currentTime;
+        });
+
+        inputField.addEventListener('paste', (event) => {
+            output.textContent = 'Content was pasted.';
+        });
+
+        inputField.addEventListener('keydown', (event) => {
+            lastKeyPressTime = new Date().getTime();
+        });
+    </script>
+</body>
+</html>
